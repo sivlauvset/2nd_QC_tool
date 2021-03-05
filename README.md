@@ -5,6 +5,10 @@ README FOR THE 2QC TOOLBOX
 Siv Lauvset
 2020-04-27
 
+Addition 2021-03-05
+New code - glodap2_csv2mat.m - has been added to convert the GLODAPv2 .csv product files to .mat files used as reference data in the toolbox.
+The function needs to be run independent of the toolbox
+
 Addition 2020-03-20
 The toolbox has been updated to use GLODAPv2.2019 as referene data
 

@@ -47,7 +47,7 @@ function [diff, stdw] = xover_2ndQC(fid,path,parameter,paramrng,folder,expocode,
 %             A  figure will be generated 
 %
 % Toste Tanhua  2009.05.27
-% Modified by Siv Lauvset 2015-03-12
+% Modified by Siv Lauvset 2021-03-24
 %
 
 %% DEFINE PARAMETERS AND MAKE THEM GLOBAL
@@ -236,8 +236,8 @@ addormul=[1 1 2 2 2 2 1 1 2 1 1 2 2 2]; % columns are the different parameters
   % Calculate the weighted difference 
   F=find(~isnan(PARstd)); PARmean=PARmean(F); PARstd=PARstd(F); ude=ude(F);
   F=find(PARstd<stdmin(parameter)); PARstd(F)=stdmin(parameter);
-  diff=nansum(PARmean./PARstd.^2)/nansum(1./PARstd.^2);
-  stdw=nansum(1./PARstd)/nansum(1./PARstd.^2); 
+  diff=sum(PARmean./PARstd.^2,'omitnan')/sum(1./PARstd.^2,'omitnan');
+  stdw=sum(1./PARstd,'omitnan')/sum(1./PARstd.^2,'omitnan'); 
   
   if length(STAT1) < 3  | length(STAT2)<3 | length(PARmean)<1
      disp('Too few data to make a X-over');

@@ -85,8 +85,8 @@ path=PATH;
     end
     if P(10)==10 & sum(strcmp('PH_TOT',nms))==1
         if sum(isfinite(PH_TOT))>0
-        phtmpmin=nanmin(PH_TMP(PH_TMP>-2)); phtmpmax=nanmax(PH_TMP(PH_TMP>-2)); 
-            if round(nanmean([phtmpmin phtmpmax])) ~= 25
+        phtmpmin=min(PH_TMP(PH_TMP>-2)); phtmpmax=max(PH_TMP(PH_TMP>-2)); 
+            if round(mean([phtmpmin phtmpmax],'omitnan')) ~= 25
                 disp('Warning: The pH (ts) in your file is not calculated for a constant temperature of 25C.  Recalculate and run again. No pH crossovers will be determined during this run.')
                 fprintf(fid,'Warning: The pH (ts) in your file is not calculated for a constant temperature of 25C.  Recalculate and run again. No pH crossovers will be determined during this run.');
                 P(10)=0;
@@ -121,15 +121,15 @@ path=PATH;
         end
        
         % identify range in the parameter to use for making the figures nicer
-        parnans=parameter; parnans(parameter<-5)=nan;
+        parnans=parameter(CTDPRS>mindepth); parnans(parameter<-5)=nan;
         if p==4 | p==5 | p==7 | p==8 | p==10 | p==11 % nitrate, phosphate, salinities, pH, theta
-        paramrng=[nanmin(parnans(CTDPRS>mindepth))-0.1 nanmax(parnans(CTDPRS>mindepth))+0.1];
+        paramrng=[min(parnans)-0.1 max(parnans)+0.1];
         elseif p==6 | p==12 % silicate, DOC
-        paramrng=[nanmin(parnans(CTDPRS>mindepth))-2 nanmax(parnans(CTDPRS>mindepth))+2];
+        paramrng=[min(parnans)-2 max(parnans)+2];
         elseif p==13 | p==14 % CFCs
-        paramrng=[nanmin(parnans(CTDPRS>mindepth))-0.25 nanmax(parnans(CTDPRS>mindepth))+0.25];
+        paramrng=[min(parnans)-0.25 max(parnans)+0.25];
         else % tco2, alk, oxygens
-        paramrng=[nanmin(parnans(CTDPRS>mindepth))-5 nanmax(parnans(CTDPRS>mindepth))+5];
+        paramrng=[min(parnans)-5 max(parnans)+5];
         end
         clear parnans
         

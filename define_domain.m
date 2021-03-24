@@ -11,13 +11,13 @@ function [lats,lons]=define_domain(lon,lat)
 % Outupt: minimum and maximum longitude and latitude defining the domain
 % 
 % Siv Lauvset
-% last modified 2015-07-28
+% last modified 2021-03-24
 
 
 % solve dateline issues
-if nanmean([nanmin(lon) nanmax(lon)])>100 | nanmean([nanmin(lon) nanmax(lon)])<-100
+if mean([min(lon) max(lon)],'omitnan')>100 | mean([min(lon) max(lon)],'omitnan')<-100
     lon1ind=find(lon<0);if ~isempty(lon1ind);lon(lon1ind)=lon(lon1ind)+360;end;clear lon1ind
-elseif nanmin(lon)<-100 & nanmax(lon)>100
+elseif min(lon)<-100 & max(lon)>100
     lon1ind=find(lon<0);if ~isempty(lon1ind);lon(lon1ind)=lon(lon1ind)+360;end;clear lon1ind
 end
     
@@ -26,8 +26,8 @@ latmax = max(lat);
 lonmin = min(lon);
 lonmax = max(lon);
 
-latcenter = nanmean([latmin latmax]);%+0.005; % For some reason, this keeps the m_grid function from crashing in rare cases
-loncenter = nanmean([lonmin lonmax]);%+0.005; % For some reason, this keeps the m_grid function from crashing in rare cases
+latcenter = mean([latmin latmax],'omitnan');%+0.005; % For some reason, this keeps the m_grid function from crashing in rare cases
+loncenter = mean([lonmin lonmax],'omitnan');%+0.005; % For some reason, this keeps the m_grid function from crashing in rare cases
 
 figure
 subplot('position',[0.05 0.05 0.9 0.65]);

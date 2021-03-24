@@ -64,7 +64,7 @@ function sec_QC(fid,path,ref_path,ref_name,ref_PARAM,input,paramrng,folder,param
 % In addition calls the m_map toolbox
 %
 % Toste Tanhua  2007.04026
-% Last modified by Siv Lauvset 2016-07-25
+% Last modified by Siv Lauvset 2021-03-24
 %
 %%%%%%
 
@@ -112,9 +112,9 @@ end
 lookup=cat(2,[ref_path,filesep,'ReferencePositions_LookupTable.mat']);
 load(lookup)
 
-if nanmean([nanmin(lon1) nanmax(lon1)])>100 | nanmean([nanmin(lon1) nanmax(lon1)])<-100
+if mean([min(lon1) max(lon1)],'omitnan')>100 | mean([min(lon1) max(lon1)],'omitnan')<-100
     lon1ind=find(rlon<0);if ~isempty(lon1ind);rlon(lon1ind)=rlon(lon1ind)+360;end;clear lon1ind
-elseif nanmin(lon1)<-100 & nanmax(lon1)>100
+elseif min(lon1)<-100 & max(lon1)>100
     lon1ind=find(rlon<0);if ~isempty(lon1ind);rlon(lon1ind)=rlon(lon1ind)+360;end;clear lon1ind
 end
 
@@ -153,10 +153,10 @@ for i=1:length(refcruiseno),
     posfig(1);
 
     % solve dateline issues
-    if nanmean([nanmin(lon1) nanmax(lon1)])>100 | nanmean([nanmin(lon1) nanmax(lon1)])<-100
+    if mean([min(lon1) max(lon1)],'omitnan')>100 | mean([min(lon1) max(lon1)],'omitnan')<-100
     lon1ind=find(lon1<0);if ~isempty(lon1ind);lon1(lon1ind)=lon1(lon1ind)+360;end;clear lon1ind
     lon2ind=find(lon2<0);if ~isempty(lon2ind);lon2(lon2ind)=lon2(lon2ind)+360;end;clear lon2ind
-    elseif nanmin(lon1)<-100 & nanmax(lon1)>100
+    elseif min(lon1)<-100 & max(lon1)>100
     lon1ind=find(lon1<0);if ~isempty(lon1ind);lon1(lon1ind)=lon1(lon1ind)+360;end;clear lon1ind
     lon2ind=find(lon2<0);if ~isempty(lon2ind);lon2(lon2ind)=lon2(lon2ind)+360;end;clear lon2ind
     end
@@ -164,8 +164,8 @@ for i=1:length(refcruiseno),
     latslons1=[lat1 lon1]; latslons2=[lat2 lon2];
     latslons = [latslons1;latslons2];
 	
-    latcenter = nanmean([min(lat1) max(lat1)])+0.002;
-	loncenter = nanmean([min(lon1) max(lon1)])+0.002;
+    latcenter = mean([min(lat1) max(lat1)],'omitnan')+0.002;
+    loncenter = mean([min(lon1) max(lon1)],'omitnan')+0.002;
  
     % Draw the first map in the figure. Requires m_map
 	axes('position',[.1 .77 .2 .2]);
@@ -269,7 +269,7 @@ for i=1:length(refcruiseno),
     end
     ID=[ID ; expo2];  
     
-    ryr=round(nanmean(refyr)); refjd=datenum(ryr,nanmin(refmnth),nanmin(refdy))-datenum(ryr-1,12,31);
+    ryr=round(mean(refyr,'omitnan')); refjd=datenum(ryr,min(refmnth),min(refdy))-datenum(ryr-1,12,31);
     rmn=[num2str(0) '.' num2str(refjd)];rmn=str2num(rmn);
     XYR=ryr+rmn; XYR(XYR<1970)=nan;
     RE=[diff stdw ratio XYR];

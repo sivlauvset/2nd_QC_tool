@@ -5,6 +5,9 @@ README FOR THE 2QC TOOLBOX
 Siv Lauvset
 2020-04-27
 
+Edits 2021-03-24
+The code previously used nanmean and nansum which are functions in the statistics toolbox. To make the 2nd_QC_tool run with a basic Matlab license the need for these functions has been removed. However, this means that the tool now only works with Matlab versions 2016a, or more recent.
+
 Addition 2021-03-05
 New code - glodap2_csv2mat.m - has been added to convert the GLODAPv2 .csv product files to .mat files used as reference data in the toolbox.
 The function needs to be run independent of the toolbox

@@ -5,6 +5,9 @@ README FOR THE 2QC TOOLBOX
 Siv Lauvset
 2020-04-27
 
+Edits 2022-01-04
+The glodap2_csv2mat script was changed to read the .mat version of the product file rather than the .csv file. For GLODAPv2.2022 we changed the format of the .csv file to include text strings with information on data set expocodes and doi which necessitated a change in this script.
+
 Edits 2021-03-24
 The code previously used nanmean and nansum which are functions in the statistics toolbox. To make the 2nd_QC_tool run with a basic Matlab license the need for these functions has been removed. However, this means that the tool now only works with Matlab versions 2016a, or more recent.
 
